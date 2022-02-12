@@ -21,9 +21,9 @@ import { $vfm } from "vue-final-modal";
 import * as types from "@/store/mutation-types";
 import { log } from "@/logging";
 import AppHeader from "@/components/AppHeader";
-import DownloadModal from "@/components/modals/Download";
-import InformationModal from "@/components/modals/Information";
-import LoadingModal from "@/components/modals/Loading";
+import DownloadModal from "@/components/modals/DownloadModal";
+import InformationModal from "@/components/modals/InformationModal";
+import LoadingModal from "@/components/modals/LoadingModal";
 
 export default {
   components: { AppHeader, DownloadModal, InformationModal, LoadingModal },

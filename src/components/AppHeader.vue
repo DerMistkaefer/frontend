@@ -32,7 +32,10 @@
       </div>
       <div class="nav-item">
         <vue-feather type="layers" aria-hidden="true" role="img" />
-        <Dropdown :label="$t('Layer settings')" :title="$t('Show/hide layers')">
+        <DropdownButton
+          :label="$t('Layer settings')"
+          :title="$t('Show/hide layers')"
+        >
           <label v-for="option in layerSettingsOptions" :key="option.layer">
             <input
               type="checkbox"
@@ -46,7 +49,7 @@
             />
             {{ option.label }}
           </label>
-        </Dropdown>
+        </DropdownButton>
       </div>
       <div class="nav-item">
         <vue-feather type="calendar" aria-hidden="true" role="img" />
@@ -175,14 +178,14 @@ import moment from "moment";
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import { $vfm } from "vue-final-modal";
 
-import Dropdown from "@/components/Dropdown";
+import DropdownButton from "@/components/DropdownButton";
 import { DATE_TIME_FORMAT } from "@/constants";
 import * as types from "@/store/mutation-types";
 import { humanReadableDistance } from "@/util";
 
 export default {
   components: {
-    Dropdown,
+    DropdownButton,
   },
   data() {
     return {

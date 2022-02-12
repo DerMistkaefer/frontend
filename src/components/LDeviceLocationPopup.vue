@@ -33,6 +33,11 @@
           <vue-feather type="zap" aria-hidden="true" role="img" />
           {{ speed }} km/h
         </li>
+        <li v-if="wifi.ssid" :title="$t('WiFi')">
+          <vue-feather type="wifi" aria-hidden="true" role="img" />
+          {{ wifi.ssid }}
+          <span v-if="wifi.bssid">({{ wifi.bssid }})</span>
+        </li>
       </ul>
     </div>
     <div v-if="regions.length" class="regions">
@@ -123,6 +128,10 @@ export default {
     regions: {
       type: Array,
       default: () => [],
+    },
+    wifi: {
+      type: Object,
+      default: () => {},
     },
     options: {
       type: Object,
