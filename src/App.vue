@@ -16,6 +16,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { $vfm } from "vue-final-modal";
 
 import * as types from "@/store/mutation-types";
 import { log } from "@/logging";
@@ -51,8 +52,8 @@ export default {
 
       if (mutation.type === types.SET_IS_LOADING) {
         this.$store.state.isLoading
-          ? this.$modal.show("loading")
-          : this.$modal.hide("loading");
+          ? $vfm.show("loading")
+          : $vfm.hide("loading");
       }
     });
     // Initially update URL query params from state

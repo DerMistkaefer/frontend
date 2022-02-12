@@ -1,6 +1,6 @@
 <template>
-  <modal name="loading" :click-to-close="false" adaptive>
-    <LoaderIcon class="loader-icon" size="1.5x" />
+  <VueFinalModal name="loading" :click-to-close="false" adaptive>
+    <vue-feather type="loader" class="loader-icon" size="36" />
     {{ $t("Loading data, please wait...") }}
     <br />
     <button
@@ -10,7 +10,7 @@
     >
       {{ $t("Cancel") }}
     </button>
-  </modal>
+  </VueFinalModal>
 </template>
 
 <style scoped>
@@ -36,11 +36,11 @@
 
 <script>
 import { mapState } from "vuex";
-import { LoaderIcon } from "vue-feather-icons";
+import { VueFinalModal } from "vue-final-modal";
 
 export default {
   components: {
-    LoaderIcon,
+    VueFinalModal,
   },
   computed: {
     ...mapState(["requestAbortController"]),

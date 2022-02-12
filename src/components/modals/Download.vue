@@ -1,5 +1,5 @@
 <template>
-  <modal name="download" adaptive>
+  <VueFinalModal name="download" adaptive>
     <pre class="data"><code>{{ data }}</code></pre>
     <div class="options">
       <input
@@ -27,7 +27,7 @@
         {{ $t("Download") }}
       </button>
     </div>
-  </modal>
+  </VueFinalModal>
 </template>
 
 <style lang="scss" scoped>
@@ -59,11 +59,15 @@
 
 <script>
 import { mapState } from "vuex";
+import { VueFinalModal } from "vue-final-modal";
 import copy from "clipboard-copy";
 
 import { download } from "@/util";
 
 export default {
+  components: {
+    VueFinalModal,
+  },
   data() {
     return {
       options: {

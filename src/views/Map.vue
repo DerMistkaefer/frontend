@@ -4,6 +4,7 @@
     :center="map.center"
     :zoom="map.zoom"
     :options="{ zoomControl: false }"
+    @ready="fitView"
     @update:center="setMapCenter"
     @update:zoom="setMapZoom"
   >
@@ -26,11 +27,11 @@
 
     <template v-if="map.layers.last">
       <LCircle
+        v-bind="circle"
         v-for="l in lastLocations"
         :key="`${l.topic}-circle`"
         :lat-lng="[l.lat, l.lon]"
         :radius="l.acc"
-        v-bind="circle"
       />
 
       <LMarker
@@ -58,10 +59,10 @@
 
     <template v-if="map.layers.line">
       <LPolyline
+        v-bind="polyline"
         v-for="(group, i) in filteredLocationHistoryLatLngGroups"
         :key="i"
         :lat-lngs="group"
-        v-bind="polyline"
       />
     </template>
 
@@ -69,6 +70,7 @@
       <template v-for="(userDevices, user) in filteredLocationHistory">
         <template v-for="(deviceLocations, device) in userDevices">
           <LCircleMarker
+            v-bind="circleMarker"
             v-for="(l, n) in deviceLocationsWithNameAndFace(
               user,
               device,
@@ -76,7 +78,6 @@
             )"
             :key="`${user}-${device}-${n}`"
             :lat-lng="[l.lat, l.lon]"
-            v-bind="circleMarker"
           >
             <LDeviceLocationPopup
               :user="user"
@@ -121,7 +122,7 @@ import {
   LCircleMarker,
   LCircle,
   LPolyline,
-} from "vue2-leaflet";
+} from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import * as types from "@/store/mutation-types";
 import LCustomMarker from "@/components/LCustomMarker";
@@ -168,11 +169,16 @@ export default {
       },
     };
   },
-  mounted() {
-    this.$root.$on("fitView", () => {
-      this.fitView();
+  /*  mounted() {
+    this.$nextTick(() => {
+      this.$refs.map.$on("ready", () => {
+        this.fitView();
+      });
     });
-  },
+    /!*!/!*    this.$root.$on("fitView", () => {
+      this.fitView();
+    });*!/!*!/
+  },*/
   computed: {
     ...mapGetters([
       "filteredLocationHistory",
@@ -196,12 +202,12 @@ export default {
           this.map.layers.heatmap) &&
         this.filteredLocationHistoryLatLngs.length > 0
       ) {
-        this.$refs.map.mapObject.fitBounds(
-          new L.LatLngBounds(this.filteredLocationHistoryLatLngs)
+        this.$refs.map.leafletObject.fitBounds(
+          this.filteredLocationHistoryLatLngs
         );
       } else if (this.map.layers.last && this.lastLocations.length > 0) {
         const locations = this.lastLocations.map((l) => L.latLng(l.lat, l.lon));
-        this.$refs.map.mapObject.fitBounds(new L.LatLngBounds(locations), {
+        this.$refs.map.leafletObject.fitBounds(new L.LatLngBounds(locations), {
           maxZoom: this.maxNativeZoom,
         });
       }

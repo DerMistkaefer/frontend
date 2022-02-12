@@ -13,7 +13,7 @@ div {
 // to understand the `custom` attribute of each prop, how the `set<Prop>`
 // methods are being used and why `mapObject` has to be named `mapObject`.
 
-import { findRealParent, propsBinder } from "vue2-leaflet";
+import { propsBinder } from "@vue-leaflet/vue-leaflet/src/utils";
 import L, { DomEvent } from "leaflet";
 import "leaflet.heat";
 
@@ -90,7 +90,9 @@ export default {
     this.mapObject = L.heatLayer(this.latLng, options);
     DomEvent.on(this.mapObject, this.$listeners);
     propsBinder(this, this.mapObject, props);
-    this.parentContainer = findRealParent(this.$parent);
+    //TODO FIX this
+    //this.parentContainer = findRealParent(this.$parent);
+    this.parentContainer = this.$parent;
     this.parentContainer.addLayer(this, !this.visible);
     this.$watch(
       "latLng",

@@ -1,5 +1,7 @@
 <template>
-  <div class="dropdown" v-focus-outside="hide" v-click-outside="hide">
+  <!-- TODO Outside Events
+  <div class="dropdown" v-focus-outside="hide" v-click-outside="hide">-->
+  <div class="dropdown">
     <button class="dropdown-button button" :title="title" @click="toggle">
       {{ label }}
     </button>

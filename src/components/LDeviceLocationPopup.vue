@@ -10,11 +10,11 @@
       />
       <ul class="info-list">
         <li :title="$t('Timestamp')">
-          <ClockIcon size="1x" aria-hidden="true" role="img" />
+          <vue-feather type="clock" aria-hidden="true" role="img" />
           {{ new Date(timestamp * 1000).toLocaleString($config.locale) }}
         </li>
         <li :title="$t('Location')">
-          <MapPinIcon size="1x" aria-hidden="true" role="img" />
+          <vue-feather type="map-pin" aria-hidden="true" role="img" />
           {{ lat }}
           <br />
           {{ lon }}
@@ -22,15 +22,15 @@
           {{ alt }}m
         </li>
         <li v-if="address" :title="$t('Address')">
-          <HomeIcon size="1x" aria-hidden="true" role="img" />
+          <vue-feather type="home" aria-hidden="true" role="img" />
           {{ address }}
         </li>
         <li v-if="typeof battery === 'number'" :title="$t('Battery')">
-          <BatteryIcon size="1x" aria-hidden="true" role="img" />
+          <vue-feather type="battery" aria-hidden="true" role="img" />
           {{ battery }} %
         </li>
         <li v-if="typeof speed === 'number'" :title="$t('Speed')">
-          <ZapIcon size="1x" aria-hidden="true" role="img" />
+          <vue-feather type="zap" aria-hidden="true" role="img" />
           {{ speed }} km/h
         </li>
       </ul>
@@ -68,23 +68,11 @@
 </style>
 
 <script>
-import {
-  BatteryIcon,
-  ClockIcon,
-  HomeIcon,
-  MapPinIcon,
-  ZapIcon,
-} from "vue-feather-icons";
-import { LPopup } from "vue2-leaflet";
+import { LPopup } from "@vue-leaflet/vue-leaflet";
 
 export default {
   name: "LDeviceLocationPopup",
   components: {
-    BatteryIcon,
-    ClockIcon,
-    HomeIcon,
-    MapPinIcon,
-    ZapIcon,
     LPopup,
   },
   props: {

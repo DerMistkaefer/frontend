@@ -1,22 +1,22 @@
 <template>
-  <header :class="$mq === 'sm' ? 'header-sm' : null">
-    <div v-if="$mq === 'sm'" class="header-item">
+  <header :class="mq.current === 'sm' ? 'header-sm' : null">
+    <div v-if="mq.current === 'sm'" class="header-item">
       <button
         class="button button-flat button-icon"
         @click="showMobileNav = !showMobileNav"
       >
-        <MenuIcon size="1x" aria-hidden="true" role="img" />
+        <vue-feather type="menu" aria-hidden="true" role="img" />
       </button>
     </div>
     <nav
-      v-if="$mq === 'sm' ? showMobileNav : true"
+      v-if="mq.current === 'sm' ? showMobileNav : true"
       class="header-item header-item-grow"
-      :class="$mq === 'sm' ? 'nav-sm' : null"
+      :class="mq.current === 'sm' ? 'nav-sm' : null"
     >
       <div class="nav-item">
-        <CrosshairIcon
-          v-if="$mq === 'sm'"
-          size="1x"
+        <vue-feather
+          type="crosshair"
+          v-if="mq.current === 'sm'"
           aria-hidden="true"
           role="img"
         />
@@ -31,7 +31,7 @@
         </button>
       </div>
       <div class="nav-item">
-        <LayersIcon size="1x" aria-hidden="true" role="img" />
+        <vue-feather type="layers" aria-hidden="true" role="img" />
         <Dropdown :label="$t('Layer settings')" :title="$t('Show/hide layers')">
           <label v-for="option in layerSettingsOptions" :key="option.layer">
             <input
@@ -49,8 +49,8 @@
         </Dropdown>
       </div>
       <div class="nav-item">
-        <CalendarIcon size="1x" aria-hidden="true" role="img" />
-        <VueCtkDateTimePicker
+        <vue-feather type="calendar" aria-hidden="true" role="img" />
+        <CtkDateTimePicker
           v-model="startDateTime"
           :format="DATE_TIME_FORMAT"
           :color="$config.primaryColor"
@@ -63,9 +63,9 @@
             class="dropdown-button button"
             :title="$t('Select start date')"
           />
-        </VueCtkDateTimePicker>
+        </CtkDateTimePicker>
         <span>{{ $t("to") }}</span>
-        <VueCtkDateTimePicker
+        <CtkDateTimePicker
           v-model="endDateTime"
           :format="DATE_TIME_FORMAT"
           :color="$config.primaryColor"
@@ -78,10 +78,10 @@
             class="dropdown-button button"
             :title="$t('Select end date')"
           />
-        </VueCtkDateTimePicker>
+        </CtkDateTimePicker>
       </div>
       <div class="nav-item">
-        <UserIcon size="1x" aria-hidden="true" role="img" />
+        <vue-feather type="user" aria-hidden="true" role="img" />
         <select
           v-model="selectedUser"
           class="dropdown-button button"
@@ -96,7 +96,7 @@
         </select>
       </div>
       <div v-if="selectedUser" class="nav-item">
-        <SmartphoneIcon size="1x" aria-hidden="true" role="img" />
+        <vue-feather type="smartphone" aria-hidden="true" role="img" />
         <select
           v-model="selectedDevice"
           class="dropdown-button button"
@@ -125,10 +125,10 @@
         </span>
         <br />
         <span :title="$t('Elevation gain / loss')">
-          <ArrowUpIcon size="0.8x" role="img" />
+          <vue-feather type="arrow-up" size="19" role="img" />
           {{ humanReadableDistance(elevationGain) }}
           /
-          <ArrowDownIcon size="0.8x" role="img" />
+          <vue-feather type="arrow-down" size="19" role="img" />
           {{ humanReadableDistance(elevationLoss) }}
         </span>
       </div>
@@ -136,10 +136,10 @@
         <button
           class="button button-flat button-icon"
           :title="$t('Download raw data')"
-          @click="$modal.show('download')"
+          @click="$vfm.show('download')"
         >
-          <DownloadIcon
-            size="1x"
+          <vue-feather
+            type="download"
             :aria-label="$t('Download raw data')"
             role="img"
           />
@@ -149,9 +149,9 @@
         <button
           class="button button-flat button-icon"
           :title="$t('Information')"
-          @click="$modal.show('information')"
+          @click="$vfm.show('information')"
         >
-          <InfoIcon size="1x" :aria-label="$t('Information')" role="img" />
+          <vue-feather type="info" :aria-label="$t('Information')" role="img" />
         </button>
       </div>
     </nav>
@@ -173,20 +173,7 @@
 <script>
 import moment from "moment";
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  CalendarIcon,
-  CrosshairIcon,
-  DownloadIcon,
-  InfoIcon,
-  LayersIcon,
-  MenuIcon,
-  SmartphoneIcon,
-  UserIcon,
-} from "vue-feather-icons";
-import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
-import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
+import { $vfm } from "vue-final-modal";
 
 import Dropdown from "@/components/Dropdown";
 import { DATE_TIME_FORMAT } from "@/constants";
@@ -195,17 +182,6 @@ import { humanReadableDistance } from "@/util";
 
 export default {
   components: {
-    ArrowDownIcon,
-    ArrowUpIcon,
-    CalendarIcon,
-    CrosshairIcon,
-    DownloadIcon,
-    InfoIcon,
-    LayersIcon,
-    MenuIcon,
-    SmartphoneIcon,
-    UserIcon,
-    VueCtkDateTimePicker,
     Dropdown,
   },
   data() {
@@ -274,6 +250,11 @@ export default {
         );
       },
     },
+    $vfm: {
+      get() {
+        return $vfm;
+      },
+    },
   },
   methods: {
     ...mapMutations({
@@ -287,5 +268,6 @@ export default {
     ]),
     humanReadableDistance,
   },
+  inject: ["mq"],
 };
 </script>
